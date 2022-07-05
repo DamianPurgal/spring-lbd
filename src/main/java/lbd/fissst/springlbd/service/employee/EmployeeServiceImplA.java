@@ -35,6 +35,7 @@ public class EmployeeServiceImplA implements EmployeeService{
 
     @PostConstruct
     private void postConstruct() {
+        System.out.println("EmployeeServiceImplA postConstruct execute...");
         System.out.println(findAll().toString());
     }
 
