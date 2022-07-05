@@ -1,13 +1,13 @@
 package lbd.fissst.springlbd.service.employee;
 
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
-@Primary
+@Qualifier("EmployeeServiceImplA")
 public class EmployeeServiceImplA implements EmployeeService{
 
     @Override
