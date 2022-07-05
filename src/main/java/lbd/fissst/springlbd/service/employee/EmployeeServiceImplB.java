@@ -2,13 +2,14 @@ package lbd.fissst.springlbd.service.employee;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
-@Qualifier("EmployeeServiceImplB")
+@Profile("prod")
 public class EmployeeServiceImplB implements EmployeeService {
 
     @Value("${project.prefix}")
