@@ -1,6 +1,7 @@
 package lbd.fissst.springlbd.service.employee;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import java.util.List;
 @Service
 @Profile("dev")
 public class EmployeeServiceImplA implements EmployeeService{
+
+    Logger logger = LoggerFactory.getLogger(EmployeeServiceImplA.class);
 
     @Value("${project.prefix}")
     String prefix;
@@ -30,9 +33,16 @@ public class EmployeeServiceImplA implements EmployeeService{
 
     @Override
     public String getEmployeeNickname(String firstName, String lastName) {
-        return prefix +
+
+        logger.info("getEmployeeNickname -> firstName: {}, lastName: {}", firstName, lastName);
+
+        String nickname = prefix +
                 firstName.substring(0,3) +
                 lastName.substring(0,3) +
                 suffix;
+
+        logger.info("getEmployeeNickname -> generated nickname: {}", nickname);
+
+        return  nickname;
     }
 }
