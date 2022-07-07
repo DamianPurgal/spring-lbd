@@ -24,8 +24,14 @@ public class UserStoryServiceImpl implements UserStoryService{
         if(userStory.getStatus() == null){
             userStory.setStatus(UserStoryStatus.TO_DO);
         }
+        if(userStory.getName() == null){
+            throw new UserStoryNotValidException("Name cannot be null!");
+        }
         if(userStory.getName().isBlank()){
             throw new UserStoryNotValidException("Name cannot be empty!");
+        }
+        if(userStory.getDescription() == null){
+            throw new UserStoryNotValidException("Description cannot be null!");
         }
         if(userStory.getDescription().isBlank()){
             throw new UserStoryNotValidException("Description cannot be empty!");

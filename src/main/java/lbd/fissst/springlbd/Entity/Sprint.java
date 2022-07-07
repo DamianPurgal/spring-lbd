@@ -17,7 +17,7 @@ import java.util.Set;
 @Table(name = "Sprints")
 public class Sprint {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
