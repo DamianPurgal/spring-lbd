@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -119,8 +120,8 @@ public class UserStoryServiceImplTests {
 
     @Test
     void givenSprintId_whenFindUserStoriesBySprintId_shouldReturnAllUserStories(){
-        Date dateStart = new Date();
-        Date dateEnd = new Date(dateStart.getTime() + new Date(1000 * 60).getTime());
+        LocalDate dateStart = LocalDate.now();
+        LocalDate dateEnd = LocalDate.now().plusDays(1);
         Sprint sprint = Sprint.builder()
                 .name("name1")
                 .dateStart(dateStart)

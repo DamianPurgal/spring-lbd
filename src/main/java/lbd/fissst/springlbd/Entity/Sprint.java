@@ -4,6 +4,7 @@ import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,10 +26,10 @@ public class Sprint {
     private String name;
 
     @Column(name = "date_start")
-    private Date dateStart;
+    private LocalDate dateStart;
 
     @Column(name = "date_end")
-    private Date dateEnd;
+    private LocalDate dateEnd;
 
     @Column(name = "description")
     private String description;
