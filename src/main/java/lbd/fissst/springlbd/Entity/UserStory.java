@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,4 +35,12 @@ public class UserStory {
     @Column(name="status")
     @Enumerated(EnumType.STRING)
     private UserStoryStatus status;
+
+    @ManyToMany
+    @JoinTable(
+            name = "SprintUserStory",
+            joinColumns = { @JoinColumn(name = "USER_STORY_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "SPRINT_ID") }
+    )
+    Set<Sprint> projects = new HashSet<>();
 }
