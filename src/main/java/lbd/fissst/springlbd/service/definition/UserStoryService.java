@@ -1,4 +1,4 @@
-package lbd.fissst.springlbd.service;
+package lbd.fissst.springlbd.service.definition;
 
 import lbd.fissst.springlbd.Entity.UserStory;
 

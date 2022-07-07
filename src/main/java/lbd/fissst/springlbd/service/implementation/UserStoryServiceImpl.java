@@ -1,20 +1,20 @@
-package lbd.fissst.springlbd.service;
+package lbd.fissst.springlbd.service.implementation;
 
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
+import lbd.fissst.springlbd.service.definition.UserStoryService;
 import lbd.fissst.springlbd.service.exception.UserStoryNotValidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserStoryServiceImpl implements UserStoryService{
+public class UserStoryServiceImpl implements UserStoryService {
 
     @Autowired
     UserStoryRepository userStoryRepository;

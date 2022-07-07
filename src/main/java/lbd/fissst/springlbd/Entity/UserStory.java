@@ -1,11 +1,9 @@
 package lbd.fissst.springlbd.Entity;
 
-import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

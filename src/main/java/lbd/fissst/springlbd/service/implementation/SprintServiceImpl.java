@@ -1,22 +1,20 @@
-package lbd.fissst.springlbd.service;
+package lbd.fissst.springlbd.service.implementation;
 
-import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.repository.SprintRepository;
+import lbd.fissst.springlbd.service.definition.SprintService;
 import lbd.fissst.springlbd.service.exception.SprintNotValidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SprintServiceImpl implements SprintService{
+public class SprintServiceImpl implements SprintService {
 
     @Autowired
     SprintRepository sprintRepository;
