@@ -36,11 +36,19 @@ public class UserStory {
     @Enumerated(EnumType.STRING)
     private UserStoryStatus status;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "SprintUserStory",
             joinColumns = { @JoinColumn(name = "USER_STORY_ID") },
             inverseJoinColumns = { @JoinColumn(name = "SPRINT_ID") }
     )
     Set<Sprint> projects = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "UserStoryAttachments",
+            joinColumns = { @JoinColumn(name = "USER_STORY_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "ATTACHMENT_ID") }
+    )
+    Set<Attachment> attachments = new HashSet<>();
 }
