@@ -10,4 +10,6 @@ public interface SprintService {
     Sprint save(Sprint sprint);
 
     List<Sprint> getAllByGivenTimePeriod(LocalDate dateFrom, LocalDate dateTo);
+
+    Integer getSumOfStoryPointsInSprintWithDoneUserStories(Long id);
 }

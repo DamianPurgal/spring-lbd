@@ -1,8 +1,11 @@
 package lbd.fissst.springlbd;
 
 import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
+import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
+import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.service.SprintServiceImpl;
+import lbd.fissst.springlbd.service.UserStoryServiceImpl;
 import lbd.fissst.springlbd.service.exception.SprintNotValidException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +27,8 @@ public class SprintServiceImplTests {
     @Autowired
     SprintServiceImpl sprintService;
 
+    @Autowired
+    UserStoryServiceImpl userStoryService;
 
     @Test
     void givenSprintWithEqualDate_whenSaved_shouldThrowException() {
@@ -131,30 +137,29 @@ public class SprintServiceImplTests {
     }
 
     @Test
-    void givenTimePeriod_WhenFindAllSprintsInPeriod_shouldReturnAllSprintsInTimePeriod(){
+    void givenTimePeriod_whenFindAllSprintsInPeriod_shouldReturnAllSprintsInTimePeriod(){
 
-        LocalDate date = LocalDate.of(2023, 7, 7);
 
         Sprint sprintA = Sprint.builder()
                 .name("name1")
-                .dateStart(date)
-                .dateEnd(date.plusDays(9))
+                .dateStart(LocalDate.of(2022, 7, 1))
+                .dateEnd(LocalDate.of(2022, 7, 10))
                 .description("description1")
                 .status(SprintStatus.PENDING)
                 .build();
 
         Sprint sprintB = Sprint.builder()
                 .name("name1")
-                .dateStart(date.plusDays(1))
-                .dateEnd(date.plusDays(3))
+                .dateStart(LocalDate.of(2022, 7, 3))
+                .dateEnd(LocalDate.of(2022, 7, 4))
                 .description("description1")
                 .status(SprintStatus.PENDING)
                 .build();
 
         Sprint sprintC = Sprint.builder()
                 .name("name1")
-                .dateStart(date.plusDays(7))
-                .dateEnd(date.plusDays(8))
+                .dateStart(LocalDate.of(2022, 7, 6))
+                .dateEnd(LocalDate.of(2022, 7, 7))
                 .description("description1")
                 .status(SprintStatus.PENDING)
                 .build();
@@ -163,12 +168,55 @@ public class SprintServiceImplTests {
         sprintB = sprintService.save(sprintB);
         sprintC = sprintService.save(sprintC);
 
-        List<Sprint> sprintsFoundInTimePeriod = sprintService.getAllByGivenTimePeriod(date.plusDays(1), date.plusDays(3));
+        List<Sprint> sprintsFoundInTimePeriod = sprintService.getAllByGivenTimePeriod(LocalDate.of(2022, 7, 2), LocalDate.of(2022, 7, 8));
         List<Long> sprintsFoundIds = sprintsFoundInTimePeriod.stream().map(Sprint::getId).toList();
 
-        assertTrue(sprintsFoundIds.contains(sprintA.getId()));
         assertTrue(sprintsFoundIds.contains(sprintB.getId()));
-        assertFalse(sprintsFoundIds.contains(sprintC.getId()));
+        assertTrue(sprintsFoundIds.contains(sprintC.getId()));
+        assertFalse(sprintsFoundIds.contains(sprintA.getId()));
+    }
+
+    @Test
+    void givenSprint_whenGetSumOfDoneUserStoriesOfSprint_shouldReturnCorrectResult(){
+        Sprint sprint = Sprint.builder()
+                .name("name1")
+                .dateStart(LocalDate.of(2023, 7, 1))
+                .dateEnd(LocalDate.of(2023, 7, 4))
+                .description("description1")
+                .status(SprintStatus.PENDING)
+                .build();
+
+        UserStory userStoryA = UserStory.builder()
+                .name("name")
+                .description("description")
+                .points(5)
+                .status(UserStoryStatus.DONE)
+                .build();
+        userStoryA = userStoryService.save(userStoryA);
+
+        UserStory userStoryB = UserStory.builder()
+                .name("name")
+                .description("description")
+                .points(6)
+                .status(UserStoryStatus.DONE)
+                .build();
+        userStoryB = userStoryService.save(userStoryB);
+
+        UserStory userStoryC = UserStory.builder()
+                .name("name")
+                .description("description")
+                .points(12)
+                .status(UserStoryStatus.IN_PROGRESS)
+                .build();
+        userStoryC = userStoryService.save(userStoryC);
+
+        sprint.setUserStories(Set.of(userStoryA, userStoryB, userStoryC));
+
+        sprint = sprintService.save(sprint);
+
+        Integer sum = sprintService.getSumOfStoryPointsInSprintWithDoneUserStories(sprint.getId());
+
+        assertEquals(11, sum);
     }
 
 }

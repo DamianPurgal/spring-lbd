@@ -45,4 +45,9 @@ public class SprintServiceImpl implements SprintService{
     public List<Sprint> getAllByGivenTimePeriod(LocalDate dateFrom, LocalDate dateTo) {
         return sprintRepository.findAllByGivenTimePeriod(dateFrom, dateTo);
     }
+
+    @Override
+    public Integer getSumOfStoryPointsInSprintWithDoneUserStories(Long id) {
+        return sprintRepository.getSumOfStoryPointsInSprintWithDoneUserStories(id);
+    }
 }
