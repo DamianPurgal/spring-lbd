@@ -1,8 +1,10 @@
 package lbd.fissst.springlbd;
 
+import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
+import lbd.fissst.springlbd.service.SprintServiceImpl;
 import lbd.fissst.springlbd.service.UserStoryServiceImpl;
 import lbd.fissst.springlbd.service.exception.SprintNotValidException;
 import lbd.fissst.springlbd.service.exception.UserStoryNotValidException;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,6 +25,9 @@ public class UserStoryServiceImplTests {
 
     @Autowired
     UserStoryServiceImpl userStoryService;
+
+    @Autowired
+    SprintServiceImpl sprintService;
 
     @Test
     void givenUserStoryWithNullName_whenSaved_shouldThrowException(){
@@ -108,5 +115,34 @@ public class UserStoryServiceImplTests {
         UserStory savedUserStory = userStoryService.save(givenUserStory);
 
         assertEquals(UserStoryStatus.DONE, savedUserStory.getStatus());
+    }
+
+    @Test
+    void givenSprintId_whenFindUserStoriesBySprintId_shouldReturnAllUserStories(){
+        Date dateStart = new Date();
+        Date dateEnd = new Date(dateStart.getTime() + new Date(1000 * 60).getTime());
+        Sprint sprint = Sprint.builder()
+                .name("name1")
+                .dateStart(dateStart)
+                .dateEnd(dateEnd)
+                .description("description1")
+                .status(SprintStatus.PENDING)
+                .build();
+
+        sprintService.save(sprint);
+
+        for(int i = 0; i < 3; i++){
+            UserStory userStory = UserStory.builder()
+                    .name("name")
+                    .description("description")
+                    .points(12)
+                    .status(UserStoryStatus.DONE)
+                    .sprints(Set.of(sprint))
+                    .build();
+            userStoryService.save(userStory);
+        }
+
+        assertEquals(3, userStoryService.getUserStoriesBySprintId(sprint.getId()).size());
+
     }
 }

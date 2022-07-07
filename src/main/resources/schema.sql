@@ -9,7 +9,7 @@ CREATE TABLE Sprints
     PRIMARY KEY (id)
 );
 
-CREATE TABLE UserStories
+CREATE TABLE User_Stories
 (
     ID serial PRIMARY KEY,
     NAME VARCHAR(128) NOT NULL,
@@ -19,14 +19,14 @@ CREATE TABLE UserStories
     PRIMARY KEY(id)
 );
 
-CREATE TABLE SprintUserStory
+CREATE TABLE Sprint_User_Story
 (
     SPRINT_ID BIGINT NOT NULL,
     USER_STORY_ID BIGINT NOT NULL,
     FOREIGN KEY (`SPRINT_ID`)
         REFERENCES `Sprints` (`id`),
     FOREIGN KEY (`USER_STORY_ID`)
-        REFERENCES `UserStories` (`id`),
+        REFERENCES `User_Stories` (`id`),
     PRIMARY KEY (SPRINT_ID, USER_STORY_ID)
 );
 
@@ -37,12 +37,12 @@ CREATE TABLE Attachments
     FILE varbinary(max)
 );
 
-CREATE TABLE UserStoryAttachments
+CREATE TABLE User_Story_Attachments
 (
     USER_STORY_ID BIGINT NOT NULL,
     ATTACHMENT_ID BIGINT NOT NULL,
     FOREIGN KEY (`USER_STORY_ID`)
-        REFERENCES `UserStories` (`id`),
+        REFERENCES `User_Stories` (`id`),
     FOREIGN KEY (`ATTACHMENT_ID`)
         REFERENCES `Attachments` (`id`),
     PRIMARY KEY (USER_STORY_ID, USER_STORY_ID)

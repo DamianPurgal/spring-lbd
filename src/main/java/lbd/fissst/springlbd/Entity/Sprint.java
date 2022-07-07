@@ -39,10 +39,10 @@ public class Sprint {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "SprintUserStory",
+            name = "Sprint_User_Story",
             joinColumns = { @JoinColumn(name = "SPRINT_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_STORY_ID") }
     )
-    Set<UserStory> projects = new HashSet<>();
+    Set<UserStory> userStories = new HashSet<>();
 
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "USERSTORIES")
+@Table(name = "USER_STORIES")
 public class UserStory {
 
     @Id
@@ -38,15 +38,15 @@ public class UserStory {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "SprintUserStory",
+            name = "Sprint_User_Story",
             joinColumns = { @JoinColumn(name = "USER_STORY_ID") },
             inverseJoinColumns = { @JoinColumn(name = "SPRINT_ID") }
     )
-    Set<Sprint> projects = new HashSet<>();
+    Set<Sprint> sprints = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "UserStoryAttachments",
+            name = "User_Story_Attachments",
             joinColumns = { @JoinColumn(name = "USER_STORY_ID") },
             inverseJoinColumns = { @JoinColumn(name = "ATTACHMENT_ID") }
     )

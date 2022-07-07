@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,4 +40,10 @@ public class UserStoryServiceImpl implements UserStoryService{
         }
         return userStoryRepository.save(userStory);
     }
+
+    @Override
+    public List<UserStory> getUserStoriesBySprintId(Long id) {
+        return userStoryRepository.findAllBySprintsId(id);
+    }
+
 }
