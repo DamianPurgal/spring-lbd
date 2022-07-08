@@ -6,6 +6,7 @@ import lbd.fissst.springlbd.repository.UserStoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class UserStoryGenerator {
     private static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     @Transactional
+    @PostConstruct
     public void generateHundredUserStories(){
 
         Random random = new Random();

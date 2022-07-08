@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -213,6 +215,38 @@ public class SprintServiceImplTests {
         Integer sum = sprintService.getSumOfStoryPointsInSprintWithDoneUserStories(sprint.getId());
 
         assertEquals(11, sum);
+    }
+
+    @Test
+    void givenSprintWithUserStories_whenSaveWithUserStories_shouldSaveBoth(){
+        Sprint sprint = Sprint.builder()
+                .name("name1")
+                .dateStart(LocalDate.of(2023, 7, 1))
+                .dateEnd(LocalDate.of(2023, 7, 4))
+                .description("description1")
+                .status(SprintStatus.PENDING)
+                .build();
+
+        UserStory userStoryA = UserStory.builder()
+                .name("name")
+                .description("description")
+                .points(5)
+                .status(UserStoryStatus.DONE)
+                .build();
+
+        UserStory userStoryB = UserStory.builder()
+                .name("name")
+                .description("description")
+                .points(6)
+                .status(UserStoryStatus.DONE)
+                .build();
+
+        sprint.setUserStories(Set.of(userStoryA, userStoryB));
+
+        Sprint savedSprint = sprintService.saveSprintAndHisUserStories(sprint);
+
+        assertNotNull(sprint);
+        assertThat(savedSprint.getUserStories(), hasSize(2));
     }
 
 }

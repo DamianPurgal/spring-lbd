@@ -14,26 +14,26 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Sprints")
+@Table(name = "SPRINTS")
 public class Sprint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "date_start")
+    @Column(name = "date_start", nullable = false)
     private LocalDate dateStart;
 
-    @Column(name = "date_end")
+    @Column(name = "date_end", nullable = false)
     private LocalDate dateEnd;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name="status")
+    @Column(name="status", nullable = false)
     @Enumerated(EnumType.STRING)
     private SprintStatus status;
 

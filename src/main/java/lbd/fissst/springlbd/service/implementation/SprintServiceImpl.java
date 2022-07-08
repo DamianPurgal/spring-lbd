@@ -2,17 +2,15 @@ package lbd.fissst.springlbd.service.implementation;
 
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.repository.SprintRepository;
+import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.SprintService;
 import lbd.fissst.springlbd.service.exception.SprintNotValidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +21,9 @@ public class SprintServiceImpl implements SprintService {
 
     @Autowired
     SprintRepository sprintRepository;
+
+    @Autowired
+    UserStoryRepository userStoryRepository;
 
     @Override
     @Transactional
@@ -59,4 +60,10 @@ public class SprintServiceImpl implements SprintService {
         return sprintRepository.findAll(page);
     }
 
+    @Override
+    @Transactional
+    public Sprint saveSprintAndHisUserStories(Sprint sprint) {
+        userStoryRepository.saveAll(sprint.getUserStories());
+        return sprintRepository.save(sprint);
+    }
 }

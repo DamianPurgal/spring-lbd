@@ -15,4 +15,6 @@ public interface SprintService {
     Integer getSumOfStoryPointsInSprintWithDoneUserStories(Long id);
 
     Page<Sprint> getAllSortedAndPaged(Pageable page);
+
+    Sprint saveSprintAndHisUserStories(Sprint sprint);
 }
