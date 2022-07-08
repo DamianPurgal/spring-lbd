@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class UserStoriesGenerator {
+public class UserStoryGenerator {
 
     @Autowired
     UserStoryRepository userStoryRepository;
@@ -20,7 +20,7 @@ public class UserStoriesGenerator {
     private static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     @Transactional
-    void generateHundredUserStories(){
+    public void generateHundredUserStories(){
 
         Random random = new Random();
 

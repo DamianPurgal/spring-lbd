@@ -7,6 +7,8 @@ import lbd.fissst.springlbd.service.definition.UserStoryService;
 import lbd.fissst.springlbd.service.exception.UserStoryNotValidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -44,6 +46,11 @@ public class UserStoryServiceImpl implements UserStoryService {
     @Override
     public List<UserStory> getUserStoriesBySprintId(Long id) {
         return userStoryRepository.findAllBySprintsId(id);
+    }
+
+    @Override
+    public Page<UserStory> getUserStoriesBySprintIdPageable(Long id, Pageable page) {
+        return userStoryRepository.findAllBySprintsId(id, page);
     }
 
 }

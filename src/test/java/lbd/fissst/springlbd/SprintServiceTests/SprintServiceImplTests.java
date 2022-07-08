@@ -1,4 +1,4 @@
-package lbd.fissst.springlbd;
+package lbd.fissst.springlbd.SprintServiceTests;
 
 import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
@@ -46,7 +46,7 @@ public class SprintServiceImplTests {
     @Test
     void givenSprintWithGreater_whenSaved_shouldThrowException(){
         LocalDate dateEnd = LocalDate.now();
-        LocalDate dateStart = LocalDate.now().plusDays(1);
+        LocalDate dateStart = dateEnd.plusDays(1);
         Sprint givenSprint = Sprint.builder()
                 .name("name1")
                 .dateStart(dateStart)
@@ -64,7 +64,7 @@ public class SprintServiceImplTests {
     @Test
     void givenSprintWithWrongStatus_whenSaved_shouldThrowException(){
         LocalDate dateStart = LocalDate.now();
-        LocalDate dateEnd = LocalDate.now().plusDays(1);
+        LocalDate dateEnd = dateStart.plusDays(1);
         Sprint givenSprint = Sprint.builder()
                 .name("name1")
                 .dateStart(dateStart)
@@ -82,7 +82,7 @@ public class SprintServiceImplTests {
     @Test
     void givenSprintEmptyName_whenSaved_shouldThrowException(){
         LocalDate dateStart = LocalDate.now();
-        LocalDate dateEnd = LocalDate.now().plusDays(1);
+        LocalDate dateEnd = dateStart.plusDays(1);
         Sprint givenSprint = Sprint.builder()
                 .name("")
                 .dateStart(dateStart)
@@ -100,7 +100,7 @@ public class SprintServiceImplTests {
     @Test
     void givenSprintWithNullName_whenSaved_shouldThrowException(){
         LocalDate dateStart = LocalDate.now();
-        LocalDate dateEnd = LocalDate.now().plusDays(1);
+        LocalDate dateEnd = dateStart.plusDays(1);
         Sprint givenSprint = Sprint.builder()
                 .name(null)
                 .dateStart(dateStart)
@@ -118,7 +118,7 @@ public class SprintServiceImplTests {
     @Test
     void givenSprint_whenSaved_shouldBeOK(){
         LocalDate dateStart = LocalDate.now();
-        LocalDate dateEnd = LocalDate.now().plusDays(1);
+        LocalDate dateEnd = dateStart.plusDays(1);
         Sprint givenSprint = Sprint.builder()
                 .name("name1")
                 .dateStart(dateStart)

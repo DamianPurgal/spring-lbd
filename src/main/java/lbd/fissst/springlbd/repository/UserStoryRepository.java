@@ -1,6 +1,8 @@
 package lbd.fissst.springlbd.repository;
 
 import lbd.fissst.springlbd.Entity.UserStory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +13,6 @@ public interface UserStoryRepository extends PagingAndSortingRepository<UserStor
 
 
     List<UserStory>  findAllBySprintsId(Long id);
+
+    Page<UserStory> findAllBySprintsId(Long id, Pageable page);
 }
