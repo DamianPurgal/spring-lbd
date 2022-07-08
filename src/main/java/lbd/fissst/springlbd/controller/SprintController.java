@@ -16,12 +16,12 @@ import java.util.List;
 public class SprintController {
 
     @Autowired
-    SprintService sprintService;
+    private SprintService sprintService;
 
     private final SprintMapper mapper = Mappers.getMapper(SprintMapper.class);
 
     @GetMapping
-    List<? extends SprintDTO> getAllSprints(@RequestParam("tasks") Boolean tasks){
+    public List<? extends SprintDTO> getAllSprints(@RequestParam("tasks") Boolean tasks){
         if(tasks){
             return sprintService.getAllSprints().stream().map(mapper::mapToSprintWithUserStoriesDTO).toList();
         }else {
@@ -29,4 +29,7 @@ public class SprintController {
         }
 
     }
+
+
+
 }

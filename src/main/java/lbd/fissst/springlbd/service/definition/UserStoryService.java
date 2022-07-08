@@ -13,4 +13,6 @@ public interface UserStoryService {
     Page<UserStory> getUserStoriesBySprintIdPageable(Long id, Pageable page);
 
     UserStory save(UserStory userStory);
+
+    UserStory saveUserStoryAndAddToSprint(UserStory userStory, Long sprintId);
 }

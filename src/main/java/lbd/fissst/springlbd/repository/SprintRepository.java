@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SprintRepository extends PagingAndSortingRepository<Sprint, Long> {
@@ -22,4 +23,6 @@ public interface SprintRepository extends PagingAndSortingRepository<Sprint, Lon
     Page<Sprint> findAll(Pageable page);
 
     List<Sprint> findAll();
+
+    Optional<Sprint> findById(Long id);
 }

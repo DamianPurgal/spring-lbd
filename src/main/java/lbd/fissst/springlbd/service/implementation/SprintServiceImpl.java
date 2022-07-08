@@ -14,16 +14,17 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class SprintServiceImpl implements SprintService {
 
     @Autowired
-    SprintRepository sprintRepository;
+    private SprintRepository sprintRepository;
 
     @Autowired
-    UserStoryRepository userStoryRepository;
+    private UserStoryRepository userStoryRepository;
 
     @Override
     @Transactional
@@ -71,4 +72,5 @@ public class SprintServiceImpl implements SprintService {
     public List<Sprint> getAllSprints() {
         return sprintRepository.findAll();
     }
+
 }

@@ -1,25 +1,34 @@
 package lbd.fissst.springlbd.service.implementation;
 
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
+import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
+import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.UserStoryService;
 import lbd.fissst.springlbd.service.exception.UserStoryNotValidException;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class UserStoryServiceImpl implements UserStoryService {
 
     @Autowired
-    UserStoryRepository userStoryRepository;
+    private UserStoryRepository userStoryRepository;
+
+    @Autowired
+    private SprintRepository sprintRepository;
 
     @Override
     @Transactional
@@ -53,4 +62,13 @@ public class UserStoryServiceImpl implements UserStoryService {
         return userStoryRepository.findAllBySprintsId(id, page);
     }
 
+    @Override
+    public UserStory saveUserStoryAndAddToSprint(UserStory userStory, Long sprintId) {
+        Sprint sprint = sprintRepository.findById(sprintId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+        userStory.setSprints(Set.of(sprint));
+
+        return userStoryRepository.save(userStory);
+    }
 }
