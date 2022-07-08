@@ -17,4 +17,6 @@ public interface SprintService {
     Page<Sprint> getAllSortedAndPaged(Pageable page);
 
     Sprint saveSprintAndHisUserStories(Sprint sprint);
+
+    List<Sprint> getAllSprints();
 }

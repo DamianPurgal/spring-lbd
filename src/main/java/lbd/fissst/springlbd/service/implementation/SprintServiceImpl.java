@@ -66,4 +66,9 @@ public class SprintServiceImpl implements SprintService {
         userStoryRepository.saveAll(sprint.getUserStories());
         return sprintRepository.save(sprint);
     }
+
+    @Override
+    public List<Sprint> getAllSprints() {
+        return sprintRepository.findAll();
+    }
 }

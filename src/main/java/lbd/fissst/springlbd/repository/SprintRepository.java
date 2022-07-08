@@ -20,4 +20,6 @@ public interface SprintRepository extends PagingAndSortingRepository<Sprint, Lon
     Integer getSumOfStoryPointsInSprintWithDoneUserStories(Long id);
 
     Page<Sprint> findAll(Pageable page);
+
+    List<Sprint> findAll();
 }
