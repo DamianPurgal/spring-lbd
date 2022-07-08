@@ -30,6 +30,9 @@ public class SprintController {
 
     }
 
-
+    @GetMapping("storyPoints/{sprintId}")
+    public Integer getSumOfStoryPointsInSprint(@PathVariable("sprintId") Long sprintId){
+        return sprintService.getSumOfStoryPointsInSprint(sprintId);
+    }
 
 }

@@ -1,6 +1,7 @@
 package lbd.fissst.springlbd.service.implementation;
 
 import lbd.fissst.springlbd.Entity.Sprint;
+import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.SprintService;
@@ -9,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -73,4 +76,16 @@ public class SprintServiceImpl implements SprintService {
         return sprintRepository.findAll();
     }
 
+    @Override
+    public Integer getSumOfStoryPointsInSprint(Long sprintId) {
+        Sprint sprint = sprintRepository.findById(sprintId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+
+        return sprint.getUserStories()
+                    .stream()
+                    .map(UserStory::getPoints)
+                    .mapToInt(Integer::intValue)
+                    .reduce(0, Integer::sum);
+    }
 }

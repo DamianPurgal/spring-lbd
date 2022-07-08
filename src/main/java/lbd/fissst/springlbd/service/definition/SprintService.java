@@ -21,4 +21,5 @@ public interface SprintService {
 
     List<Sprint> getAllSprints();
 
+    Integer getSumOfStoryPointsInSprint(Long sprintId);
 }
