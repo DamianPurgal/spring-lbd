@@ -3,7 +3,7 @@ package lbd.fissst.springlbd.service.dataGenerator;
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@AllArgsConstructor
 public class UserStoryGenerator {
 
-    @Autowired
     UserStoryRepository userStoryRepository;
 
     private static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

@@ -7,9 +7,7 @@ import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.UserStoryService;
 import lbd.fissst.springlbd.service.exception.UserStoryNotValidException;
-import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,13 +19,11 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserStoryServiceImpl implements UserStoryService {
 
-    @Autowired
     private UserStoryRepository userStoryRepository;
 
-    @Autowired
     private SprintRepository sprintRepository;
 
     @Override
@@ -65,7 +61,7 @@ public class UserStoryServiceImpl implements UserStoryService {
     @Override
     public UserStory saveUserStoryAndAddToSprint(UserStory userStory, Long sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
         );
         userStory.setSprints(Set.of(sprint));
 

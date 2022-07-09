@@ -6,8 +6,7 @@ import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.SprintService;
 import lbd.fissst.springlbd.service.exception.SprintNotValidException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,16 +16,13 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SprintServiceImpl implements SprintService {
 
-    @Autowired
     private SprintRepository sprintRepository;
 
-    @Autowired
     private UserStoryRepository userStoryRepository;
 
     @Override
@@ -79,7 +75,7 @@ public class SprintServiceImpl implements SprintService {
     @Override
     public Integer getSumOfStoryPointsInSprint(Long sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
         );
 
         return sprint.getUserStories()

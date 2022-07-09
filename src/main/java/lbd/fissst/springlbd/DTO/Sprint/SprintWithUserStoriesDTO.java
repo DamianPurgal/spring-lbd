@@ -1,4 +1,4 @@
-package lbd.fissst.springlbd.DTO;
+package lbd.fissst.springlbd.DTO.Sprint;
 
 import lombok.Data;
 

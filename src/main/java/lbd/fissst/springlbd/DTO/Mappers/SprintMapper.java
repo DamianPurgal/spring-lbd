@@ -1,7 +1,7 @@
 package lbd.fissst.springlbd.DTO.Mappers;
 
-import lbd.fissst.springlbd.DTO.SprintDTO;
-import lbd.fissst.springlbd.DTO.SprintWithUserStoriesDTO;
+import lbd.fissst.springlbd.DTO.Sprint.SprintDTO;
+import lbd.fissst.springlbd.DTO.Sprint.SprintWithUserStoriesDTO;
 import lbd.fissst.springlbd.Entity.Sprint;
 import org.mapstruct.Mapper;
 
