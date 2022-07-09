@@ -15,4 +15,7 @@ public interface UserStoryService {
     UserStory save(UserStory userStory);
 
     UserStory saveUserStoryAndAddToSprint(UserStory userStory, Long sprintId);
+
+    UserStory getUserStoryById(Long id);
+
 }

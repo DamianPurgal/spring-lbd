@@ -67,4 +67,11 @@ public class UserStoryServiceImpl implements UserStoryService {
 
         return userStoryRepository.save(userStory);
     }
+
+    @Override
+    public UserStory getUserStoryById(Long id) {
+        return userStoryRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "UserStory not found")
+        );
+    }
 }

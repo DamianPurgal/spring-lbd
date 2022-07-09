@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/userStory")
+@RequestMapping("/userstories")
 @AllArgsConstructor
 public class UserStoryController {
 
@@ -35,14 +35,17 @@ public class UserStoryController {
 
     @GetMapping("/{sprintId}")
     public List<UserStoryGetDTO> getUserStoriesWithSprintId(@PathVariable("sprintId") Long sprintId){
-        if(sprintId == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-
         return userStoryService.getUserStoriesBySprintId(sprintId)
                 .stream()
                 .map(mapper::mapToUserStoryGetDTO)
                 .toList();
+    }
+
+    @GetMapping("/description/{userStoryId}")
+    public String getUserStoryDescription(@PathVariable("userStoryId") Long userStoryId){
+        return userStoryService
+                .getUserStoryById(userStoryId)
+                .getDescription();
     }
 
 

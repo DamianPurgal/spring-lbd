@@ -33,17 +33,9 @@ CREATE TABLE Sprint_User_Story
 CREATE TABLE Attachments
 (
     ID serial PRIMARY KEY,
-    NAME VARCHAR(128) NOT NULL,
-    FILE varbinary(max)
-);
-
-CREATE TABLE User_Story_Attachments
-(
     USER_STORY_ID BIGINT NOT NULL,
-    ATTACHMENT_ID BIGINT NOT NULL,
-    FOREIGN KEY (`USER_STORY_ID`)
-        REFERENCES `User_Stories` (`id`),
-    FOREIGN KEY (`ATTACHMENT_ID`)
-        REFERENCES `Attachments` (`id`),
-    PRIMARY KEY (USER_STORY_ID, USER_STORY_ID)
+    NAME VARCHAR(128) NOT NULL,
+    FILE varbinary(max),
+    FOREIGN KEY(`USER_STORY_ID`)
+        REFERENCES `User_Stories` (`id`)
 );
