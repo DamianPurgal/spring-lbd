@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public class RateDTO {
-    String currency;
-    String code;
-    Double bid;
-    Double ask;
+    private String currency;
+    private String code;
+    private Double bid;
+    private Double ask;
 }

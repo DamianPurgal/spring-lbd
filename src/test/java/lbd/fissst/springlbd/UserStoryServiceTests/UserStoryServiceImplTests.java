@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class UserStoryServiceImplTests {
 
     @Autowired
-    UserStoryServiceImpl userStoryService;
+    private UserStoryServiceImpl userStoryService;
 
     @Autowired
-    SprintServiceImpl sprintService;
+    private SprintServiceImpl sprintService;
 
     @Test
     void givenUserStoryWithNullName_whenSaved_shouldThrowException(){

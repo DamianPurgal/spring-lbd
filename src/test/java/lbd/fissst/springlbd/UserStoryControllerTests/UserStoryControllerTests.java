@@ -22,13 +22,13 @@ import static org.hamcrest.Matchers.hasSize;
 public class UserStoryControllerTests {
 
     @Autowired
-    UserStoryController userStoryController;
+    private UserStoryController userStoryController;
 
     @Autowired
-    UserStoryRepository userStoryRepository;
+    private UserStoryRepository userStoryRepository;
 
     @Autowired
-    SprintService sprintService;
+    private SprintService sprintService;
 
     @Test
     public void givenUserStory_whenSaveUserStory_thenSuccess(){

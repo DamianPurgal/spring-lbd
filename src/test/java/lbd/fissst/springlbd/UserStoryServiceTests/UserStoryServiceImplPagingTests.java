@@ -24,13 +24,13 @@ import static org.hamcrest.Matchers.hasSize;
 public class UserStoryServiceImplPagingTests {
 
     @Autowired
-    UserStoryServiceImpl userStoryService;
+    private UserStoryServiceImpl userStoryService;
 
     @Autowired
-    SprintServiceImpl sprintService;
+    private SprintServiceImpl sprintService;
 
     @Autowired
-    UserStoryGenerator userStoryGenerator;
+    private UserStoryGenerator userStoryGenerator;
 
     @Test
     void givenDataCreated_whenFindAllUserStoriesBySprintIdPaginated_thenSuccess(){

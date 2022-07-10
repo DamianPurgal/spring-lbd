@@ -43,6 +43,6 @@ public class Sprint {
             joinColumns = { @JoinColumn(name = "SPRINT_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_STORY_ID") }
     )
-    Set<UserStory> userStories = new HashSet<>();
+    private Set<UserStory> userStories = new HashSet<>();
 
 }

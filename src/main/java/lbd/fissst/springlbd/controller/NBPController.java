@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("nbp")
 public class NBPController {
 
-    NBPService nbpService;
+    private NBPService nbpService;
 
     @GetMapping("yesterday")
     public List<RateDTO> getExchangeRatesOfThePreviousDay(){

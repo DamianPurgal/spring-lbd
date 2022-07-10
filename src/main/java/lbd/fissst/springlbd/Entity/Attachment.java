@@ -26,6 +26,6 @@ public class Attachment {
 
     @ManyToOne
     @JoinColumn(name="user_story_id", nullable=false)
-    UserStory userStory;
+    private UserStory userStory;
 
 }

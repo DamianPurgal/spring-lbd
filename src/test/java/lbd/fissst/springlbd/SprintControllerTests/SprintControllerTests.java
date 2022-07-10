@@ -22,13 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SprintControllerTests {
 
     @Autowired
-    SprintController sprintController;
+    private SprintController sprintController;
 
     @Autowired
-    SprintService sprintService;
+    private SprintService sprintService;
 
     @Autowired
-    UserStoryService userStoryService;
+    private UserStoryService userStoryService;
 
     @Test
     public void givenSprintStatusAndId_whenUpdateSprintStatus_thenSuccess(){

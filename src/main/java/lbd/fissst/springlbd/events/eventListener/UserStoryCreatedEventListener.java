@@ -12,18 +12,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.transaction.Transactional;
-import java.util.HashSet;
 import java.util.Set;
 
 @Component
 public class UserStoryCreatedEventListener {
 
     @Autowired
-    UserStoryRepository userStoryRepository;
+    private UserStoryRepository userStoryRepository;
 
     @Autowired
-    SprintRepository sprintRepository;
+    private SprintRepository sprintRepository;
 
     @EventListener
     public void handleUserStoryCreatedEvent(UserStoryCreatedEvent userStoryCreatedEvent){

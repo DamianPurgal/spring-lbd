@@ -16,7 +16,7 @@ import java.util.Random;
 @AllArgsConstructor
 public class UserStoryGenerator {
 
-    UserStoryRepository userStoryRepository;
+    private UserStoryRepository userStoryRepository;
 
     private static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

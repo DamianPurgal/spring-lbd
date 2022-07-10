@@ -23,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SprintServiceImplTests {
 
     @Autowired
-    SprintServiceImpl sprintService;
+    private SprintServiceImpl sprintService;
 
     @Autowired
-    UserStoryServiceImpl userStoryService;
+    private UserStoryServiceImpl userStoryService;
 
     @Test
     void givenSprintWithEqualDate_whenSaved_shouldThrowException() {

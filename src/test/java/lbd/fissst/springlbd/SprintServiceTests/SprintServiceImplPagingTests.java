@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class SprintServiceImplPagingTests {
 
     @Autowired
-    SprintServiceImpl sprintService;
+    private SprintServiceImpl sprintService;
 
     @Test
     void givenDataCreated_whenFindAllPaginatedAndSorted_thenSuccess(){
