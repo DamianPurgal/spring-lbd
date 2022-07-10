@@ -8,6 +8,7 @@ import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.UserStoryService;
 import lbd.fissst.springlbd.service.exception.UserStoryNotValidException;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -73,5 +74,15 @@ public class UserStoryServiceImpl implements UserStoryService {
         return userStoryRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "UserStory not found")
         );
+    }
+
+    @Override
+    public void deleteUserStory(Long id) {
+        try{
+            userStoryRepository.deleteById(id);
+        }catch(EmptyResultDataAccessException exception){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "UserStory not found");
+        }
+
     }
 }

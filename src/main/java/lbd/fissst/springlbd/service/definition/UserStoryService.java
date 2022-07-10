@@ -18,4 +18,5 @@ public interface UserStoryService {
 
     UserStory getUserStoryById(Long id);
 
+    void deleteUserStory(Long id);
 }
