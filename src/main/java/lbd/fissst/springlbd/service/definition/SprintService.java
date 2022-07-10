@@ -24,4 +24,6 @@ public interface SprintService {
     Integer getSumOfStoryPointsInSprint(Long sprintId);
 
     Sprint updateSprint(SprintPUTDTO sprintDataToUpdate, Long sprintId);
+
+    Sprint getSprintById(Long id);
 }

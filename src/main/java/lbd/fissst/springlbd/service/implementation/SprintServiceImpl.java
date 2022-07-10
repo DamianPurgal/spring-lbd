@@ -100,4 +100,12 @@ public class SprintServiceImpl implements SprintService {
 
         return sprintRepository.save(sprint);
     }
+
+    @Override
+    public Sprint getSprintById(Long id) {
+        return sprintRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
+                );
+    }
 }
