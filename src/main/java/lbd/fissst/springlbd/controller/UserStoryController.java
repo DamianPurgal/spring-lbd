@@ -7,6 +7,9 @@ import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.service.definition.UserStoryService;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -51,6 +54,22 @@ public class UserStoryController {
     @DeleteMapping("/{userStoryId}")
     public void deleteUserStoryById(@PathVariable("userStoryId") Long userStoryId){
         userStoryService.deleteUserStory(userStoryId);
+    }
+
+    @GetMapping("/sortedByName")
+    public List<UserStoryDTO> getUserStoriesSortedByNameAndPageable(@RequestParam Integer page, @RequestParam Integer amount){
+        if(amount < 1){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "amount must not be less than one");
+        }if(page < 1){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "page must not be less than one");
+        }
+        return userStoryService.getUserStoriesSortedAndPaged(
+                PageRequest.of(page, amount, Sort.by(Sort.Order.asc("name")))
+                )
+                .getContent()
+                .stream()
+                .map(mapper::mapUserStoryToUserStoryDTO)
+                .toList();
     }
 
 }

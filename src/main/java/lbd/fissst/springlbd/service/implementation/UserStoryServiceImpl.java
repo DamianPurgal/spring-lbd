@@ -85,4 +85,9 @@ public class UserStoryServiceImpl implements UserStoryService {
         }
 
     }
+
+    @Override
+    public Page<UserStory> getUserStoriesSortedAndPaged(Pageable page) {
+        return userStoryRepository.findAll(page);
+    }
 }

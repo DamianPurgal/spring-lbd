@@ -19,4 +19,6 @@ public interface UserStoryService {
     UserStory getUserStoryById(Long id);
 
     void deleteUserStory(Long id);
+
+    Page<UserStory> getUserStoriesSortedAndPaged(Pageable page);
 }

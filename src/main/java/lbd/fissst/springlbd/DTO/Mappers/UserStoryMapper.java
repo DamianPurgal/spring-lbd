@@ -12,4 +12,6 @@ public interface UserStoryMapper {
 
     UserStoryGetDTO mapToUserStoryGetDTO(UserStory userStory);
 
+    UserStoryDTO mapUserStoryToUserStoryDTO(UserStory userStory);
+
 }

@@ -15,4 +15,6 @@ public interface UserStoryRepository extends PagingAndSortingRepository<UserStor
     List<UserStory>  findAllBySprintsId(Long id);
 
     Page<UserStory> findAllBySprintsId(Long id, Pageable page);
+
+    Page<UserStory> findAll(Pageable page);
 }
