@@ -1,5 +1,7 @@
 package lbd.fissst.springlbd.service.implementation;
 
+import lbd.fissst.springlbd.DTO.Mappers.SprintMapper;
+import lbd.fissst.springlbd.DTO.Sprint.SprintPUTDTO;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.repository.SprintRepository;
@@ -7,6 +9,7 @@ import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.SprintService;
 import lbd.fissst.springlbd.service.exception.SprintNotValidException;
 import lombok.AllArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -83,5 +86,18 @@ public class SprintServiceImpl implements SprintService {
                     .map(UserStory::getPoints)
                     .mapToInt(Integer::intValue)
                     .reduce(0, Integer::sum);
+    }
+
+    @Override
+    public Sprint updateSprint(SprintPUTDTO sprintDataToUpdate, Long sprintId) {
+        SprintMapper mapper = Mappers.getMapper(SprintMapper.class);
+
+        Sprint sprint = sprintRepository.findById(sprintId)
+                .map(s -> mapper.mapSprintPUTDTOtoSprint(sprintDataToUpdate, s))
+                .orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
+        );
+
+        return sprintRepository.save(sprint);
     }
 }

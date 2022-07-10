@@ -2,6 +2,8 @@ package lbd.fissst.springlbd.controller;
 
 import lbd.fissst.springlbd.DTO.Mappers.SprintMapper;
 import lbd.fissst.springlbd.DTO.Sprint.SprintDTO;
+import lbd.fissst.springlbd.DTO.Sprint.SprintPUTDTO;
+import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.service.definition.SprintService;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -33,4 +35,13 @@ public class SprintController {
         return sprintService.getSumOfStoryPointsInSprint(sprintId);
     }
 
+    @PutMapping("/status/{sprintId}")
+    public void updateSprintStatus(@RequestParam SprintStatus sprintStatus, @PathVariable("sprintId") Long sprintId){
+        SprintPUTDTO sprintDTO = SprintPUTDTO
+                .builder()
+                .status(sprintStatus)
+                .build();
+
+        sprintService.updateSprint(sprintDTO, sprintId);
+    }
 }

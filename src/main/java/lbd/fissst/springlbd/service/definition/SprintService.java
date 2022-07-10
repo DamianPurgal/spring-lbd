@@ -1,5 +1,6 @@
 package lbd.fissst.springlbd.service.definition;
 
+import lbd.fissst.springlbd.DTO.Sprint.SprintPUTDTO;
 import lbd.fissst.springlbd.Entity.Sprint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,6 @@ public interface SprintService {
     List<Sprint> getAllSprints();
 
     Integer getSumOfStoryPointsInSprint(Long sprintId);
+
+    Sprint updateSprint(SprintPUTDTO sprintDataToUpdate, Long sprintId);
 }
