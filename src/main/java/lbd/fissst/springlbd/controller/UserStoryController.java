@@ -7,6 +7,7 @@ import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.service.definition.UserStoryService;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -72,4 +73,10 @@ public class UserStoryController {
                 .toList();
     }
 
+    @PostMapping
+    public void addUserStory(@RequestBody UserStoryDTO userStoryDTO){
+        UserStory userStory = mapper.mapToUserStory(userStoryDTO);
+
+        userStoryService.save(userStory);
+    }
 }

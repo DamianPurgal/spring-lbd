@@ -1,5 +1,6 @@
 package lbd.fissst.springlbd.repository;
 
+import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +26,6 @@ public interface SprintRepository extends PagingAndSortingRepository<Sprint, Lon
     List<Sprint> findAll();
 
     Optional<Sprint> findById(Long id);
+
+    Optional<Sprint> findTopByStatusOrderByDateStartDesc(SprintStatus status);
 }

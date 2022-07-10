@@ -42,10 +42,10 @@ public class UserStory {
             joinColumns = { @JoinColumn(name = "USER_STORY_ID") },
             inverseJoinColumns = { @JoinColumn(name = "SPRINT_ID") }
     )
-    Set<Sprint> sprints = new HashSet<>();
+    private Set<Sprint> sprints = new HashSet<>();
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userStory")
-    Set<Attachment> attachments = new HashSet<>();
+    private Set<Attachment> attachments = new HashSet<>();
 
 }

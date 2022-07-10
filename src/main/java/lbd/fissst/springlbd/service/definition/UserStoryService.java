@@ -21,4 +21,5 @@ public interface UserStoryService {
     void deleteUserStory(Long id);
 
     Page<UserStory> getUserStoriesSortedAndPaged(Pageable page);
+
 }

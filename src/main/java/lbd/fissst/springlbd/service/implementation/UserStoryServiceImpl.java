@@ -1,13 +1,16 @@
 package lbd.fissst.springlbd.service.implementation;
 
+import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
+import lbd.fissst.springlbd.events.event.UserStoryCreatedEvent;
 import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.UserStoryService;
 import lbd.fissst.springlbd.service.exception.UserStoryNotValidException;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +29,8 @@ public class UserStoryServiceImpl implements UserStoryService {
     private UserStoryRepository userStoryRepository;
 
     private SprintRepository sprintRepository;
+
+    private ApplicationEventPublisher publisher;
 
     @Override
     @Transactional
@@ -46,7 +51,11 @@ public class UserStoryServiceImpl implements UserStoryService {
         if(userStory.getDescription().isBlank()){
             throw new UserStoryNotValidException("Description cannot be empty!");
         }
-        return userStoryRepository.save(userStory);
+
+        UserStory savedUserStory = userStoryRepository.save(userStory);
+        publisher.publishEvent(new UserStoryCreatedEvent(savedUserStory.getId()));
+
+        return savedUserStory;
     }
 
     @Override
@@ -90,4 +99,5 @@ public class UserStoryServiceImpl implements UserStoryService {
     public Page<UserStory> getUserStoriesSortedAndPaged(Pageable page) {
         return userStoryRepository.findAll(page);
     }
+
 }
