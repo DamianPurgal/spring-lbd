@@ -14,7 +14,7 @@ import lbd.fissst.springlbd.event.UserStoryCreatedEvent;
 import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.SprintService;
-import lbd.fissst.springlbd.service.exception.SprintNotValidException;
+import lbd.fissst.springlbd.exception.SprintNotValidException;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.event.EventListener;

@@ -6,16 +6,14 @@ import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.repository.SprintRepository;
-import lbd.fissst.springlbd.service.implementation.SprintServiceImpl;
 import lbd.fissst.springlbd.service.implementation.UserStoryServiceImpl;
-import lbd.fissst.springlbd.service.exception.UserStoryNotValidException;
+import lbd.fissst.springlbd.exception.UserStoryNotValidException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

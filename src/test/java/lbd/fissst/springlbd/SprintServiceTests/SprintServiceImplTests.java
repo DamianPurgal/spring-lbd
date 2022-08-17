@@ -2,7 +2,6 @@ package lbd.fissst.springlbd.SprintServiceTests;
 
 import lbd.fissst.springlbd.DTO.Sprint.SprintDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintWithUserStoriesDTO;
-import lbd.fissst.springlbd.DTO.Sprint.SprintWithoutDescriptionDTO;
 import lbd.fissst.springlbd.DTO.UserStory.UserStoryDTO;
 import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
@@ -11,7 +10,7 @@ import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.service.implementation.SprintServiceImpl;
 import lbd.fissst.springlbd.service.implementation.UserStoryServiceImpl;
-import lbd.fissst.springlbd.service.exception.SprintNotValidException;
+import lbd.fissst.springlbd.exception.SprintNotValidException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
