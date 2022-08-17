@@ -7,7 +7,6 @@ import lbd.fissst.springlbd.DTO.Sprint.SprintWithoutDescriptionDTO;
 import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.service.definition.SprintService;
 import lombok.AllArgsConstructor;
-import org.mapstruct.factory.Mappers;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,16 +20,9 @@ public class SprintController {
 
     private SprintService sprintService;
 
-    private final SprintMapper mapper = Mappers.getMapper(SprintMapper.class);
-
     @GetMapping
     public List<? extends SprintDTO> getAllSprints(@RequestParam("tasks") Boolean tasks){
-        if(tasks){
-            return sprintService.getAllSprints().stream().map(mapper::mapToSprintWithUserStoriesDTO).toList();
-        }else {
-            return sprintService.getAllSprints().stream().map(mapper::mapToSprintDTO).toList();
-        }
-
+        return sprintService.getAllSprints(tasks);
     }
 
     @GetMapping("storyPoints/{sprintId}")
@@ -51,9 +43,6 @@ public class SprintController {
     @GetMapping("/inTimePeriod")
     public List<SprintWithoutDescriptionDTO> getAllSprintsInTimePeriod(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
                                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateEnd){
-        return sprintService.getAllByGivenTimePeriod(dateFrom, dateEnd)
-                .stream()
-                .map(mapper::mapSprintToSprintWithoutDescription)
-                .toList();
+        return sprintService.getAllByGivenTimePeriodWithoutDescription(dateFrom, dateEnd);
     }
 }

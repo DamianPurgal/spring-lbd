@@ -6,8 +6,8 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface AttachmentMapper {
-    Attachment mapAttachmentDTOtoAttachment(AttachmentDTO attachmentDTO);
+    Attachment mapAttachmentDtoToAttachment(AttachmentDTO attachmentDTO);
 
-    AttachmentDTO mapAttachmentDTOtoAttachment(Attachment attachment);
+    AttachmentDTO mapAttachmentToAttachmentDto(Attachment attachment);
 
 }

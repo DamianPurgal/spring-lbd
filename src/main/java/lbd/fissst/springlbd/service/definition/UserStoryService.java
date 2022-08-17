@@ -1,5 +1,7 @@
 package lbd.fissst.springlbd.service.definition;
 
+import lbd.fissst.springlbd.DTO.UserStory.UserStoryDTO;
+import lbd.fissst.springlbd.DTO.UserStory.UserStoryGetDTO;
 import lbd.fissst.springlbd.Entity.UserStory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,18 +10,18 @@ import java.util.List;
 
 public interface UserStoryService {
 
-    List<UserStory> getUserStoriesBySprintId(Long id);
+    List<UserStoryGetDTO> getUserStoriesBySprintId(Long id);
 
-    Page<UserStory> getUserStoriesBySprintIdPageable(Long id, Pageable page);
+    Page<UserStoryDTO> getUserStoriesBySprintIdPageable(Long id, Pageable page);
 
-    UserStory save(UserStory userStory);
+    UserStoryDTO save(UserStoryDTO userStoryDTO);
 
-    UserStory saveUserStoryAndAddToSprint(UserStory userStory, Long sprintId);
+    UserStoryDTO saveUserStoryAndAddToSprint(UserStoryDTO userStoryDTO, Long sprintId);
 
-    UserStory getUserStoryById(Long id);
+    UserStoryDTO getUserStoryById(Long id);
 
     void deleteUserStory(Long id);
 
-    Page<UserStory> getUserStoriesSortedAndPaged(Pageable page);
+    Page<UserStoryDTO> getUserStoriesSortedAndPaged(Pageable page);
 
 }

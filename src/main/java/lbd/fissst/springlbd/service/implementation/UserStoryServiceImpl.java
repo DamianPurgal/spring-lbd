@@ -1,6 +1,8 @@
 package lbd.fissst.springlbd.service.implementation;
 
-import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
+import lbd.fissst.springlbd.DTO.Mappers.UserStoryMapper;
+import lbd.fissst.springlbd.DTO.UserStory.UserStoryDTO;
+import lbd.fissst.springlbd.DTO.UserStory.UserStoryGetDTO;
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
@@ -10,6 +12,7 @@ import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.UserStoryService;
 import lbd.fissst.springlbd.service.exception.UserStoryNotValidException;
 import lombok.AllArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -32,9 +35,12 @@ public class UserStoryServiceImpl implements UserStoryService {
 
     private ApplicationEventPublisher publisher;
 
+    private final UserStoryMapper mapper = Mappers.getMapper(UserStoryMapper.class);
+
     @Override
     @Transactional
-    public UserStory save(UserStory userStory) {
+    public UserStoryDTO save(UserStoryDTO userStoryDTO) {
+        UserStory userStory = mapper.mapUserStoryToUserStory(userStoryDTO);
 
         if(userStory.getStatus() == null){
             userStory.setStatus(UserStoryStatus.TO_DO);
@@ -55,33 +61,43 @@ public class UserStoryServiceImpl implements UserStoryService {
         UserStory savedUserStory = userStoryRepository.save(userStory);
         publisher.publishEvent(new UserStoryCreatedEvent(savedUserStory.getId()));
 
-        return savedUserStory;
+        return mapper.mapUserStoryToUserStoryDto(savedUserStory);
     }
 
     @Override
-    public List<UserStory> getUserStoriesBySprintId(Long id) {
-        return userStoryRepository.findAllBySprintsId(id);
+    public List<UserStoryGetDTO> getUserStoriesBySprintId(Long id) {
+        return userStoryRepository.findAllBySprintsId(id)
+                .stream()
+                .map(mapper::mapUserStoryToUserStoryGetDto)
+                .toList();
     }
 
     @Override
-    public Page<UserStory> getUserStoriesBySprintIdPageable(Long id, Pageable page) {
-        return userStoryRepository.findAllBySprintsId(id, page);
+    public Page<UserStoryDTO> getUserStoriesBySprintIdPageable(Long id, Pageable page) {
+        return userStoryRepository.findAllBySprintsId(id, page)
+                .map(mapper::mapUserStoryToUserStoryDto);
     }
 
     @Override
-    public UserStory saveUserStoryAndAddToSprint(UserStory userStory, Long sprintId) {
+    public UserStoryDTO saveUserStoryAndAddToSprint(UserStoryDTO userStoryDTO, Long sprintId) {
+        UserStory userStory = mapper.mapUserStoryToUserStory(userStoryDTO);
+
         Sprint sprint = sprintRepository.findById(sprintId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
         );
         userStory.setSprints(Set.of(sprint));
 
-        return userStoryRepository.save(userStory);
+        return mapper.mapUserStoryToUserStoryDto(
+                userStoryRepository.save(userStory)
+        );
     }
 
     @Override
-    public UserStory getUserStoryById(Long id) {
-        return userStoryRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "UserStory not found")
+    public UserStoryDTO getUserStoryById(Long id) {
+        return mapper.mapUserStoryToUserStoryDto(
+                userStoryRepository.findById(id).orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "UserStory not found")
+                )
         );
     }
 
@@ -96,8 +112,9 @@ public class UserStoryServiceImpl implements UserStoryService {
     }
 
     @Override
-    public Page<UserStory> getUserStoriesSortedAndPaged(Pageable page) {
-        return userStoryRepository.findAll(page);
+    public Page<UserStoryDTO> getUserStoriesSortedAndPaged(Pageable page) {
+        return userStoryRepository.findAll(page)
+                .map(mapper::mapUserStoryToUserStoryDto);
     }
 
 }

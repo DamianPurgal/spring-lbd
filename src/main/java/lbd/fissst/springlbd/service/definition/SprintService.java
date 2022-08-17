@@ -1,6 +1,8 @@
 package lbd.fissst.springlbd.service.definition;
 
+import lbd.fissst.springlbd.DTO.Sprint.SprintDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintPUTDTO;
+import lbd.fissst.springlbd.DTO.Sprint.SprintWithoutDescriptionDTO;
 import lbd.fissst.springlbd.Entity.Sprint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,21 +11,19 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface SprintService {
-    Sprint save(Sprint sprint);
+    SprintDTO save(SprintDTO sprintDTO);
 
-    List<Sprint> getAllByGivenTimePeriod(LocalDate dateFrom, LocalDate dateTo);
+    List<SprintWithoutDescriptionDTO> getAllByGivenTimePeriodWithoutDescription(LocalDate dateFrom, LocalDate dateTo);
 
     Integer getSumOfStoryPointsInSprintWithDoneUserStories(Long id);
 
-    Page<Sprint> getAllSortedAndPaged(Pageable page);
+    Page<SprintDTO> getAllSortedAndPaged(Pageable page);
 
-    Sprint saveSprintAndHisUserStories(Sprint sprint);
-
-    List<Sprint> getAllSprints();
+    List<? extends SprintDTO> getAllSprints(Boolean tasks);
 
     Integer getSumOfStoryPointsInSprint(Long sprintId);
 
-    Sprint updateSprint(SprintPUTDTO sprintDataToUpdate, Long sprintId);
+    SprintDTO updateSprint(SprintPUTDTO sprintDataToUpdate, Long sprintId);
 
-    Sprint getSprintById(Long id);
+    SprintDTO getSprintById(Long id);
 }

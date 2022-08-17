@@ -8,10 +8,10 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface UserStoryMapper {
 
-    UserStory mapToUserStory(UserStoryDTO userStoryDTO);
+    UserStory mapUserStoryToUserStory(UserStoryDTO userStoryDTO);
 
-    UserStoryGetDTO mapToUserStoryGetDTO(UserStory userStory);
+    UserStoryGetDTO mapUserStoryToUserStoryGetDto(UserStory userStory);
 
-    UserStoryDTO mapUserStoryToUserStoryDTO(UserStory userStory);
+    UserStoryDTO mapUserStoryToUserStoryDto(UserStory userStory);
 
 }

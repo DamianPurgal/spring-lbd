@@ -1,12 +1,13 @@
 package lbd.fissst.springlbd.service.definition;
 
+import lbd.fissst.springlbd.DTO.Attachment.AttachmentDTO;
 import lbd.fissst.springlbd.Entity.Attachment;
 
 import java.util.List;
 
 public interface AttachmentService {
 
-    Attachment addAttachmentToUserStory(Attachment attachment, Long userStoryId);
+    AttachmentDTO addAttachmentToUserStory(AttachmentDTO attachmentDTO, Long userStoryId);
 
-    List<Attachment> getAttachmentsOfUserStory(Long userStoryId);
+    List<AttachmentDTO> getAttachmentsOfUserStory(Long userStoryId);
 }

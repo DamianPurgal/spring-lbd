@@ -12,11 +12,14 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface SprintMapper {
 
-    SprintDTO mapToSprintDTO(Sprint sprint);
+    SprintDTO mapSprintToSprintDto(Sprint sprint);
 
-    SprintWithUserStoriesDTO mapToSprintWithUserStoriesDTO(Sprint sprint);
+    SprintWithUserStoriesDTO mapSprintToSprintWithUserStoriesDto(Sprint sprint);
 
-    Sprint mapSprintPUTDTOtoSprint(SprintPUTDTO sprintPUTDTO, @MappingTarget Sprint sprint);
+    Sprint mapSprintPutDtoToSprint(SprintPUTDTO sprintPUTDTO, @MappingTarget Sprint sprint);
 
-    SprintWithoutDescriptionDTO mapSprintToSprintWithoutDescription(Sprint sprint);
+    SprintWithoutDescriptionDTO mapSprintToSprintWithoutDescriptionDto(Sprint sprint);
+
+    Sprint mapSprintDtoToSprint(SprintDTO sprintDTO);
+
 }

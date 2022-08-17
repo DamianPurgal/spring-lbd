@@ -1,7 +1,9 @@
 package lbd.fissst.springlbd.service.implementation;
 
 import lbd.fissst.springlbd.DTO.Mappers.SprintMapper;
+import lbd.fissst.springlbd.DTO.Sprint.SprintDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintPUTDTO;
+import lbd.fissst.springlbd.DTO.Sprint.SprintWithoutDescriptionDTO;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.repository.SprintRepository;
@@ -26,11 +28,12 @@ public class SprintServiceImpl implements SprintService {
 
     private SprintRepository sprintRepository;
 
-    private UserStoryRepository userStoryRepository;
-
+    private final SprintMapper mapper = Mappers.getMapper(SprintMapper.class);
     @Override
     @Transactional
-    public Sprint save(Sprint sprint) {
+    public SprintDTO save(SprintDTO sprintDTO) {
+
+        Sprint sprint = mapper.mapSprintDtoToSprint(sprintDTO);
 
         if(sprint.getName() == null){
             throw new SprintNotValidException("name cannot be null!");
@@ -45,12 +48,17 @@ public class SprintServiceImpl implements SprintService {
             throw new SprintNotValidException("Start date cannot be greater or equal to end date!");
         }
 
-        return sprintRepository.save(sprint);
+        return mapper.mapSprintToSprintDto(
+                sprintRepository.save(sprint)
+        );
     }
 
     @Override
-    public List<Sprint> getAllByGivenTimePeriod(LocalDate dateFrom, LocalDate dateTo) {
-        return sprintRepository.findAllByGivenTimePeriod(dateFrom, dateTo);
+    public List<SprintWithoutDescriptionDTO> getAllByGivenTimePeriodWithoutDescription(LocalDate dateFrom, LocalDate dateTo) {
+        return sprintRepository.findAllByGivenTimePeriod(dateFrom, dateTo)
+                .stream()
+                .map(mapper::mapSprintToSprintWithoutDescriptionDto)
+                .toList();
     }
 
     @Override
@@ -59,20 +67,20 @@ public class SprintServiceImpl implements SprintService {
     }
 
     @Override
-    public Page<Sprint> getAllSortedAndPaged(Pageable page) {
-        return sprintRepository.findAll(page);
+    public Page<SprintDTO> getAllSortedAndPaged(Pageable page) {
+        return sprintRepository.findAll(page)
+                .map(mapper::mapSprintToSprintDto);
     }
 
     @Override
-    @Transactional
-    public Sprint saveSprintAndHisUserStories(Sprint sprint) {
-        userStoryRepository.saveAll(sprint.getUserStories());
-        return sprintRepository.save(sprint);
-    }
+    public List<? extends SprintDTO> getAllSprints(Boolean tasks) {
+        List<Sprint> sprints = sprintRepository.findAll();
 
-    @Override
-    public List<Sprint> getAllSprints() {
-        return sprintRepository.findAll();
+        if(tasks){
+            return sprints.stream().map(mapper::mapSprintToSprintWithUserStoriesDto).toList();
+        }else {
+            return sprints.stream().map(mapper::mapSprintToSprintDto).toList();
+        }
     }
 
     @Override
@@ -89,23 +97,24 @@ public class SprintServiceImpl implements SprintService {
     }
 
     @Override
-    public Sprint updateSprint(SprintPUTDTO sprintDataToUpdate, Long sprintId) {
-        SprintMapper mapper = Mappers.getMapper(SprintMapper.class);
-
+    public SprintDTO updateSprint(SprintPUTDTO sprintDataToUpdate, Long sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId)
-                .map(s -> mapper.mapSprintPUTDTOtoSprint(sprintDataToUpdate, s))
+                .map(s -> mapper.mapSprintPutDtoToSprint(sprintDataToUpdate, s))
                 .orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
         );
 
-        return sprintRepository.save(sprint);
+        return mapper.mapSprintToSprintDto(
+                sprintRepository.save(sprint)
+        );
     }
 
     @Override
-    public Sprint getSprintById(Long id) {
-        return sprintRepository.findById(id)
+    public SprintDTO getSprintById(Long id) {
+        return mapper.mapSprintToSprintDto(sprintRepository.findById(id)
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
-                );
+                )
+        );
     }
 }
