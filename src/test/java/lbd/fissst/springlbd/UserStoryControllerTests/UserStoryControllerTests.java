@@ -8,7 +8,6 @@ import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.controller.UserStoryController;
 import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
-import lbd.fissst.springlbd.service.definition.SprintService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

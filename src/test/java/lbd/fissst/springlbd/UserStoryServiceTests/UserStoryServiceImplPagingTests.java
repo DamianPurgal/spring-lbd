@@ -7,8 +7,6 @@ import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
-import lbd.fissst.springlbd.service.dataGenerator.UserStoryGenerator;
-import lbd.fissst.springlbd.service.implementation.SprintServiceImpl;
 import lbd.fissst.springlbd.service.implementation.UserStoryServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Set;
 
