@@ -98,72 +98,97 @@ public class UserStoryServiceImplTests {
         );
     }
 
-//    @Test
-//    void givenUserStoryWithoutStatus_whenSaved_shouldSaveAndSetToDoStatus(){
-//        //given
-//        UserStoryDTO givenUserStory = UserStoryDTO.builder()
-//                .name("name")
-//                .description("description")
-//                .points(12)
-//                .status(null)
-//                .build();
-//
-//        //when
-//        UserStoryDTO savedUserStory = userStoryService.save(givenUserStory);
-//
-//        //then
-//        assertEquals(UserStoryStatus.TO_DO, savedUserStory.getStatus());
-//    }
+    @Test
+    void givenUserStoryWithoutStatus_whenSaved_shouldSaveAndSetToDoStatus(){
+        //given
+        Sprint addedSprint = sprintRepository.save(
+                Sprint.builder()
+                        .name("name1")
+                        .dateStart(LocalDate.now())
+                        .dateEnd(LocalDate.now().plusDays(1))
+                        .description("description1")
+                        .status(SprintStatus.PENDING)
+                        .build()
+        );
 
-//    @Test
-//    void givenUserStoryWithStatus_whenSaved_shouldSaveAndShouldNotChangeStatus(){
-//        //given
-//        UserStoryDTO givenUserStory = UserStoryDTO.builder()
-//                .name("name")
-//                .description("description")
-//                .points(12)
-//                .status(UserStoryStatus.DONE)
-//                .build();
-//
-//        //when
-//        UserStoryDTO savedUserStory = userStoryService.save(givenUserStory);
-//
-//        //then
-//        assertEquals(UserStoryStatus.DONE, savedUserStory.getStatus());
-//    }
+        UserStoryDTO givenUserStory = UserStoryDTO.builder()
+                .name("name")
+                .description("description")
+                .points(12)
+                .status(null)
+                .build();
 
-//    @Test
-//    void givenSprintId_whenFindUserStoriesBySprintId_shouldReturnAllUserStories(){
-//        //given
-//        LocalDate dateStart = LocalDate.now();
-//        LocalDate dateEnd = LocalDate.now().plusDays(1);
-//        Sprint sprint = Sprint.builder()
-//                .name("name1")
-//                .dateStart(dateStart)
-//                .dateEnd(dateEnd)
-//                .description("description1")
-//                .status(SprintStatus.PENDING)
-//                .userStories(new HashSet<>())
-//                .build();
-//
-//        for(int i = 0; i < 3; i++){
-//            sprint.getUserStories().add(
-//                    UserStory.builder()
-//                            .name("name")
-//                            .description("description")
-//                            .points(12)
-//                            .status(UserStoryStatus.DONE)
-//                            .sprints(Set.of(sprint))
-//                            .build()
-//            );
-//        }
-//        sprintRepository.save(sprint);
-//
-//        //when
-//        int amountOfUserStories = userStoryService.getUserStoriesBySprintId(sprint.getId()).size();
-//
-//        //then
-//        assertEquals(3, amountOfUserStories);
-//
-//    }
+        //when
+        UserStoryDTO savedUserStory = userStoryService.saveUserStoryAndAddToSprint(
+                givenUserStory,
+                addedSprint.getId()
+        );
+
+        //then
+        assertEquals(UserStoryStatus.TO_DO, savedUserStory.getStatus());
+    }
+
+    @Test
+    void givenUserStoryWithStatus_whenSaved_shouldSaveAndShouldNotChangeStatus(){
+        //given
+        Sprint addedSprint = sprintRepository.save(
+                Sprint.builder()
+                        .name("name1")
+                        .dateStart(LocalDate.now())
+                        .dateEnd(LocalDate.now().plusDays(1))
+                        .description("description1")
+                        .status(SprintStatus.PENDING)
+                        .build()
+        );
+
+        UserStoryDTO givenUserStory = UserStoryDTO.builder()
+                .name("name")
+                .description("description")
+                .points(12)
+                .status(UserStoryStatus.DONE)
+                .build();
+
+        //when
+        UserStoryDTO savedUserStory = userStoryService.saveUserStoryAndAddToSprint(
+                givenUserStory,
+                addedSprint.getId()
+        );
+
+        //then
+        assertEquals(UserStoryStatus.DONE, savedUserStory.getStatus());
+    }
+
+    @Test
+    void givenSprintId_whenFindUserStoriesBySprintId_shouldReturnAllUserStories(){
+        //given
+        LocalDate dateStart = LocalDate.now();
+        LocalDate dateEnd = LocalDate.now().plusDays(1);
+        Sprint sprint = Sprint.builder()
+                .name("name1")
+                .dateStart(dateStart)
+                .dateEnd(dateEnd)
+                .description("description1")
+                .status(SprintStatus.PENDING)
+                .userStories(new HashSet<>())
+                .build();
+
+        for(int i = 0; i < 3; i++){
+            sprint.getUserStories().add(
+                    UserStory.builder()
+                            .name("name")
+                            .description("description")
+                            .points(12)
+                            .status(UserStoryStatus.DONE)
+                            .build()
+            );
+        }
+        sprintRepository.save(sprint);
+
+        //when
+        int amountOfUserStories = userStoryService.getUserStoriesBySprintId(sprint.getId()).size();
+
+        //then
+        assertEquals(3, amountOfUserStories);
+
+    }
 }
