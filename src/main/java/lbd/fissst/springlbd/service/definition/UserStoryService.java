@@ -2,7 +2,6 @@ package lbd.fissst.springlbd.service.definition;
 
 import lbd.fissst.springlbd.DTO.UserStory.UserStoryDTO;
 import lbd.fissst.springlbd.DTO.UserStory.UserStoryGetDTO;
-import lbd.fissst.springlbd.Entity.UserStory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

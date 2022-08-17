@@ -4,10 +4,15 @@ import lbd.fissst.springlbd.DTO.Sprint.SprintDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintPUTDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintWithUserStoriesDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintWithoutDescriptionDTO;
+import lbd.fissst.springlbd.DTO.UserStory.UserStoryDTO;
+import lbd.fissst.springlbd.DTO.UserStory.UserStoryNameAndPointsDTO;
 import lbd.fissst.springlbd.Entity.Sprint;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import lbd.fissst.springlbd.Entity.UserStory;
+import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface SprintMapper {

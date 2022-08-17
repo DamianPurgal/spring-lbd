@@ -37,7 +37,7 @@ public class Sprint {
     @Enumerated(EnumType.STRING)
     private SprintStatus status;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "Sprint_User_Story",
             joinColumns = { @JoinColumn(name = "SPRINT_ID") },

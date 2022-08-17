@@ -1,13 +1,15 @@
 package lbd.fissst.springlbd.service.implementation;
 
 import lbd.fissst.springlbd.DTO.Mappers.SprintMapper;
+import lbd.fissst.springlbd.DTO.Mappers.UserStoryMapper;
 import lbd.fissst.springlbd.DTO.Sprint.SprintDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintPUTDTO;
+import lbd.fissst.springlbd.DTO.Sprint.SprintWithUserStoriesDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintWithoutDescriptionDTO;
+import lbd.fissst.springlbd.DTO.UserStory.UserStoryDTO;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.repository.SprintRepository;
-import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.SprintService;
 import lbd.fissst.springlbd.service.exception.SprintNotValidException;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,8 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -115,6 +119,23 @@ public class SprintServiceImpl implements SprintService {
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
                 )
+        );
+    }
+
+    @Override
+    public SprintWithUserStoriesDTO saveSprintAndHisUserStories(SprintDTO sprintDTO, Set<UserStoryDTO> userStoriesDTO) {
+        Sprint sprintToAdd = mapper.mapSprintDtoToSprint(sprintDTO);
+        sprintToAdd.setUserStories(
+                userStoriesDTO
+                        .stream()
+                        .map(
+                                Mappers.getMapper(UserStoryMapper.class)::mapUserStoryDtoToUserStory
+                        )
+                        .collect(Collectors.toSet())
+        );
+
+        return mapper.mapSprintToSprintWithUserStoriesDto(
+                sprintRepository.save(sprintToAdd)
         );
     }
 }

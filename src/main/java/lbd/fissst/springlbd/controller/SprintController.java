@@ -1,6 +1,5 @@
 package lbd.fissst.springlbd.controller;
 
-import lbd.fissst.springlbd.DTO.Mappers.SprintMapper;
 import lbd.fissst.springlbd.DTO.Sprint.SprintDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintPUTDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintWithoutDescriptionDTO;

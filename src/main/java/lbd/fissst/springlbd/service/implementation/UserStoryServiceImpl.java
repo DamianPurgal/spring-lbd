@@ -40,7 +40,7 @@ public class UserStoryServiceImpl implements UserStoryService {
     @Override
     @Transactional
     public UserStoryDTO save(UserStoryDTO userStoryDTO) {
-        UserStory userStory = mapper.mapUserStoryToUserStory(userStoryDTO);
+        UserStory userStory = mapper.mapUserStoryDtoToUserStory(userStoryDTO);
 
         if(userStory.getStatus() == null){
             userStory.setStatus(UserStoryStatus.TO_DO);
@@ -80,7 +80,7 @@ public class UserStoryServiceImpl implements UserStoryService {
 
     @Override
     public UserStoryDTO saveUserStoryAndAddToSprint(UserStoryDTO userStoryDTO, Long sprintId) {
-        UserStory userStory = mapper.mapUserStoryToUserStory(userStoryDTO);
+        UserStory userStory = mapper.mapUserStoryDtoToUserStory(userStoryDTO);
 
         Sprint sprint = sprintRepository.findById(sprintId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
