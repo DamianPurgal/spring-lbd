@@ -7,6 +7,7 @@ import lbd.fissst.springlbd.DTO.Sprint.SprintWithoutDescriptionDTO;
 import lbd.fissst.springlbd.DTO.UserStory.UserStoryDTO;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
+import lbd.fissst.springlbd.event.UserStoryCreatedEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -32,4 +33,6 @@ public interface SprintService {
     SprintDTO getSprintById(Long id);
 
     SprintWithUserStoriesDTO saveSprintAndHisUserStories(SprintDTO sprintDTO, Set<UserStoryDTO> userStoriesDTO);
+
+    void userStoryCreatedEventHandler(UserStoryCreatedEvent userStoryCreatedEvent);
 }

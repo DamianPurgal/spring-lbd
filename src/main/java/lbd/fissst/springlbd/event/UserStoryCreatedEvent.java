@@ -1,4 +1,4 @@
-package lbd.fissst.springlbd.events.event;
+package lbd.fissst.springlbd.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

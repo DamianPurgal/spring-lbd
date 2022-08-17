@@ -7,13 +7,17 @@ import lbd.fissst.springlbd.DTO.Sprint.SprintPUTDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintWithUserStoriesDTO;
 import lbd.fissst.springlbd.DTO.Sprint.SprintWithoutDescriptionDTO;
 import lbd.fissst.springlbd.DTO.UserStory.UserStoryDTO;
+import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
+import lbd.fissst.springlbd.event.UserStoryCreatedEvent;
 import lbd.fissst.springlbd.repository.SprintRepository;
+import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.SprintService;
 import lbd.fissst.springlbd.service.exception.SprintNotValidException;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -31,6 +35,8 @@ import java.util.stream.Collectors;
 public class SprintServiceImpl implements SprintService {
 
     private SprintRepository sprintRepository;
+
+    private UserStoryRepository userStoryRepository;
 
     private final SprintMapper mapper = Mappers.getMapper(SprintMapper.class);
     @Override
@@ -137,5 +143,26 @@ public class SprintServiceImpl implements SprintService {
         return mapper.mapSprintToSprintWithUserStoriesDto(
                 sprintRepository.save(sprintToAdd)
         );
+    }
+
+    @EventListener
+    @Override
+    public void userStoryCreatedEventHandler(UserStoryCreatedEvent userStoryCreatedEvent){
+        Sprint sprint = sprintRepository.findTopByStatusOrderByDateStartDesc(SprintStatus.PENDING)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No sprint found to add to")
+                );
+        UserStory userStory = userStoryRepository.findById(userStoryCreatedEvent.getUserStoryId())
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "userStory not found")
+                );
+
+        if(sprint.getUserStories() != null){
+            sprint.getUserStories().add(userStory);
+        }else{
+            sprint.setUserStories(Set.of(userStory));
+        }
+        sprintRepository.save(sprint);
+
     }
 }
