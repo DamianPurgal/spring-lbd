@@ -45,22 +45,13 @@ public class SprintServiceImpl implements SprintService {
 
         Sprint sprint = mapper.mapSprintDtoToSprint(sprintDTO);
 
-        if(sprint.getName() == null){
-            throw new SprintNotValidException("name cannot be null!");
+        if(isSprintValid(sprint)){
+            return mapper.mapSprintToSprintDto(
+                    sprintRepository.save(sprint)
+            );
+        }else{
+            throw new SprintNotValidException("Sprint validation failed");
         }
-        if(sprint.getName().isBlank()){
-            throw new SprintNotValidException("name cannot be empty!");
-        }
-        if(sprint.getStatus() == null){
-            throw new SprintNotValidException("invalid status!");
-        }
-        if(sprint.getDateStart().compareTo(sprint.getDateEnd()) >= 0){
-            throw new SprintNotValidException("Start date cannot be greater or equal to end date!");
-        }
-
-        return mapper.mapSprintToSprintDto(
-                sprintRepository.save(sprint)
-        );
     }
 
     @Override
@@ -114,9 +105,13 @@ public class SprintServiceImpl implements SprintService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
         );
 
-        return mapper.mapSprintToSprintDto(
-                sprintRepository.save(sprint)
-        );
+        if(isSprintValid(sprint)){
+            return mapper.mapSprintToSprintDto(
+                    sprintRepository.save(sprint)
+            );
+        }else{
+            throw new SprintNotValidException("Sprint validation failed");
+        }
     }
 
     @Override
@@ -164,5 +159,23 @@ public class SprintServiceImpl implements SprintService {
         }
         sprintRepository.save(sprint);
 
+    }
+
+    //Utility
+    private boolean isSprintValid(Sprint sprint){
+        if(sprint.getName() == null){
+            return false;
+        }
+        if(sprint.getName().isBlank()){
+            return false;
+        }
+        if(sprint.getStatus() == null){
+            return false;
+        }
+        if(sprint.getDateStart().compareTo(sprint.getDateEnd()) >= 0){
+            return false;
+        }
+
+        return true;
     }
 }

@@ -42,14 +42,19 @@ public class UserStoryServiceImpl implements UserStoryService {
     public UserStoryDTO save(UserStoryDTO userStoryDTO) {
         UserStory userStory = mapper.mapUserStoryDtoToUserStory(userStoryDTO);
 
-        UserStory savedUserStory = null;
-
         if(isUserStoryValid(userStory)){
-            savedUserStory = userStoryRepository.save(userStory);
+            if(userStory.getStatus() == null){
+                userStory.setStatus(UserStoryStatus.TO_DO);
+            }
+            UserStory savedUserStory = userStoryRepository.save(userStory);
             publisher.publishEvent(new UserStoryCreatedEvent(savedUserStory.getId()));
+            return mapper.mapUserStoryToUserStoryDto(savedUserStory);
+
+        }else{
+            throw new UserStoryNotValidException("User story validation failed");
         }
 
-        return mapper.mapUserStoryToUserStoryDto(savedUserStory);
+
     }
 
     @Override
@@ -70,19 +75,22 @@ public class UserStoryServiceImpl implements UserStoryService {
     public UserStoryDTO saveUserStoryAndAddToSprint(UserStoryDTO userStoryDTO, Long sprintId) {
         UserStory userStory = mapper.mapUserStoryDtoToUserStory(userStoryDTO);
 
-        UserStory savedUserStory = null;
-
         if(isUserStoryValid(userStory)){
+            if(userStory.getStatus() == null){
+                userStory.setStatus(UserStoryStatus.TO_DO);
+            }
             Sprint sprint = sprintRepository.findById(sprintId).orElseThrow(
                     () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
             );
             userStory.setSprints(Set.of(sprint));
 
-            savedUserStory = userStoryRepository.save(userStory);
+            return mapper.mapUserStoryToUserStoryDto(
+                    userStoryRepository.save(userStory)
+            );
+        }else{
+            throw new UserStoryNotValidException("User story validation failed");
         }
-        return mapper.mapUserStoryToUserStoryDto(
-                savedUserStory
-        );
+
     }
 
     @Override
@@ -110,23 +118,21 @@ public class UserStoryServiceImpl implements UserStoryService {
                 .map(mapper::mapUserStoryToUserStoryDto);
     }
 
-    //Util
+    //Utility
     private boolean isUserStoryValid(UserStory userStory){
-        if(userStory.getStatus() == null){
-            userStory.setStatus(UserStoryStatus.TO_DO);
-        }
         if(userStory.getName() == null){
-            throw new UserStoryNotValidException("Name cannot be null!");
+            return false;
         }
         if(userStory.getName().isBlank()){
-            throw new UserStoryNotValidException("Name cannot be empty!");
+            return false;
         }
         if(userStory.getDescription() == null){
-            throw new UserStoryNotValidException("Description cannot be null!");
+            return false;
         }
         if(userStory.getDescription().isBlank()){
-            throw new UserStoryNotValidException("Description cannot be empty!");
+            return false;
         }
+
         return true;
     }
 
