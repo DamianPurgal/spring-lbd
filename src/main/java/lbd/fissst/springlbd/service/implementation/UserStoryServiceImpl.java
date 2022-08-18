@@ -7,6 +7,7 @@ import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.event.UserStoryCreatedEvent;
+import lbd.fissst.springlbd.exception.AppEntityNotFoundException;
 import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.UserStoryService;
@@ -17,9 +18,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -53,8 +52,6 @@ public class UserStoryServiceImpl implements UserStoryService {
         }else{
             throw new UserStoryNotValidException("User story validation failed");
         }
-
-
     }
 
     @Override
@@ -80,7 +77,7 @@ public class UserStoryServiceImpl implements UserStoryService {
                 userStory.setStatus(UserStoryStatus.TO_DO);
             }
             Sprint sprint = sprintRepository.findById(sprintId).orElseThrow(
-                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
+                    () -> new AppEntityNotFoundException("Sprint not found")
             );
             userStory.setSprints(Set.of(sprint));
 
@@ -97,7 +94,7 @@ public class UserStoryServiceImpl implements UserStoryService {
     public UserStoryDTO getUserStoryById(Long id) {
         return mapper.mapUserStoryToUserStoryDto(
                 userStoryRepository.findById(id).orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "UserStory not found")
+                        () -> new AppEntityNotFoundException("UserStory not found")
                 )
         );
     }
@@ -107,7 +104,7 @@ public class UserStoryServiceImpl implements UserStoryService {
         try{
             userStoryRepository.deleteById(id);
         }catch(EmptyResultDataAccessException exception){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "UserStory not found");
+            throw new AppEntityNotFoundException("UserStory not found");
         }
 
     }

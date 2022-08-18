@@ -11,6 +11,7 @@ import lbd.fissst.springlbd.Entity.Enums.SprintStatus;
 import lbd.fissst.springlbd.Entity.Sprint;
 import lbd.fissst.springlbd.Entity.UserStory;
 import lbd.fissst.springlbd.event.UserStoryCreatedEvent;
+import lbd.fissst.springlbd.exception.AppEntityNotFoundException;
 import lbd.fissst.springlbd.repository.SprintRepository;
 import lbd.fissst.springlbd.repository.UserStoryRepository;
 import lbd.fissst.springlbd.service.definition.SprintService;
@@ -20,9 +21,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -87,7 +86,7 @@ public class SprintServiceImpl implements SprintService {
     @Override
     public Integer getSumOfStoryPointsInSprint(Long sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
+                () -> new AppEntityNotFoundException("Sprint not found")
         );
 
         return sprint.getUserStories()
@@ -102,7 +101,7 @@ public class SprintServiceImpl implements SprintService {
         Sprint sprint = sprintRepository.findById(sprintId)
                 .map(s -> mapper.mapSprintPutDtoToSprint(sprintDataToUpdate, s))
                 .orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
+                () -> new AppEntityNotFoundException("Sprint not found")
         );
 
         if(isSprintValid(sprint)){
@@ -118,7 +117,7 @@ public class SprintServiceImpl implements SprintService {
     public SprintDTO getSprintById(Long id) {
         return mapper.mapSprintToSprintDto(sprintRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sprint not found")
+                        () -> new AppEntityNotFoundException("Sprint not found")
                 )
         );
     }
@@ -145,11 +144,11 @@ public class SprintServiceImpl implements SprintService {
     public void userStoryCreatedEventHandler(UserStoryCreatedEvent userStoryCreatedEvent){
         Sprint sprint = sprintRepository.findTopByStatusOrderByDateStartDesc(SprintStatus.PENDING)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No sprint found to add to")
+                        () -> new AppEntityNotFoundException("No sprint found to add to")
                 );
         UserStory userStory = userStoryRepository.findById(userStoryCreatedEvent.getUserStoryId())
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "userStory not found")
+                        () -> new AppEntityNotFoundException("userStory not found")
                 );
 
         if(sprint.getUserStories() != null){
@@ -158,7 +157,6 @@ public class SprintServiceImpl implements SprintService {
             sprint.setUserStories(Set.of(userStory));
         }
         sprintRepository.save(sprint);
-
     }
 
     //Utility
