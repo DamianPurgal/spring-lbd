@@ -1,4 +1,4 @@
-package lbd.fissst.springlbd.service.dataGenerator;
+package lbd.fissst.springlbd.dataGenerator;
 
 import lbd.fissst.springlbd.Entity.Enums.UserStoryStatus;
 import lbd.fissst.springlbd.Entity.UserStory;
@@ -31,7 +31,7 @@ public class UserStoryGenerator {
             userStories.add(UserStory.builder()
                     .name(getRandomString())
                     .description(getRandomString())
-                    .points(random.nextInt(10) + 5)
+                    .points(random.nextInt(10) + 1)
                     .status(getRandomUserStoryStatus())
                     .build()
             );
@@ -42,10 +42,9 @@ public class UserStoryGenerator {
     private String getRandomString(){
 
         StringBuilder stringBuilder = new StringBuilder();
-
         Random random = new Random();
 
-        int length = random.nextInt(4) + 3;
+        int length = random.nextInt(6) + 5;
 
         for(int i = 0; i < length; i++){
             stringBuilder.append(alphabet.charAt(i));
@@ -54,17 +53,10 @@ public class UserStoryGenerator {
     }
 
     private UserStoryStatus getRandomUserStoryStatus(){
-
         Random random = new Random();
-
-        return switch (random.nextInt(UserStoryStatus.values().length)) {
-            case 0 -> UserStoryStatus.TO_DO;
-            case 1 -> UserStoryStatus.IN_PROGRESS;
-            case 2 -> UserStoryStatus.REVIEW;
-            case 3 -> UserStoryStatus.DONE;
-            default -> UserStoryStatus.TO_DO;
-        };
+        return UserStoryStatus.values()[
+                random.nextInt(
+                        UserStoryStatus.values().length
+                )];
     }
-
-
 }
